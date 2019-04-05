@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出库测试</title>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/out.js"></script>
+
+</head>
+<body>
+
+<input type="button" value="获取食品清单" onclick="getFoodList()"/>
+<input type="button" value="出库" onclick="outFood()"/>
+<table>
+    <thead>
+    <tr>
+        <td>食品ID</td>
+        <td>食品名称</td>
+        <td>规格</td>
+        <td>单位</td>
+        <td>入库数量</td>
+        <td>剩余数量</td>
+        <!--<td>入库详单ID</td>-->
+        <td>单价</td>
+        <td>生产日期</td>
+        <td>保质期</td>
+        <td>库房及货架</td>
+        <!--<td>入库表ID</td>-->
+        <!--<td>入库时间</td>-->
+        <td>录入人</td>
+        <td>出库数量</td>
+    </tr>
+    </thead>
+    <tbody id="food-list">
+
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $(function () {
+        getFoodList();
+    });
+
+</script>
+</body>
+</html>

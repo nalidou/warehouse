@@ -1,0 +1,297 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!-- [if lt IE 9]>
+	src="static/lib/html5shiv.js"></script>
+<script type="text/javascript" src="static/lib/respond.min.js"></script>
+<![endif] -->
+
+<link rel="stylesheet" type="text/css" href="static/js/uiadmin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/js/uiadmin/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="static/js/uiadmin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/js/uiadmin/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/js/uiadmin/h-ui.admin/css/style.css" />
+	<!--提示框-->
+	<link rel="stylesheet" type="text/css" href="static/js/uiadmin/pop_up/dialog/dialog.css" />
+	<script type="text/javascript" src="static/js/uiadmin/pop_up/dialog/zepto.min.js"></script>
+	<script type="text/javascript" src="static/js/uiadmin/pop_up/dialog/dialog.min.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="static/js/uiadmin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>仓储信息管理系统V1.0</title>
+</head>
+<body>
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">
+			仓储信息管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">V0.1</span>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			
+		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<li><span id="user-name"></span></li>
+				<li class="dropDown dropDown_hover">
+					<a href="#" class="dropDown_A">
+						<span id="user-mail"></span>
+						<i class="Hui-iconfont">&#xe6d5;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+						<li><a href="/">切换账户</a></li>
+						<li><a href="/">退出</a></li>
+				</ul>
+			</li>
+
+				<li id="Hui-msg">
+					<a href="#" title="消息">
+						<span class="badge badge-danger">1</span>
+						<i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a>
+				</li>
+
+				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+<aside class="Hui-aside">
+	<div class="menu_dropdown bk_2">
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe616;</i> 查询<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="search-null-warehouse.html" data-title="查询空货架" href="javascript:void(0)">查询空货架</a></li>
+					<li><a data-href="search-null-type.html" data-title="查询空类别" href="javascript:void(0)">查询空类别</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe616;</i> 仓库作业<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul id="ckzy">
+
+				</ul>
+			</dd>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe616;</i> 报表管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul id="bbgl">
+
+				</ul>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe616;</i> 系统设置<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul id="xtsz">
+					<li><a data-href="change-password.html" data-title="修改密码" href="javascript:void(0)">修改密码</a></li>
+
+				</ul>
+			</dd>
+		</dl>
+
+
+</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<section class="Hui-article-box">
+	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+		<div class="Hui-tabNav-wp">
+			<ul id="min_title_list" class="acrossTab cl">
+				<li class="active">
+					<span title="消息通知" data-href="article-tbsssc.html">消息通知</span>
+					<em></em></li>
+		</ul>
+	</div>
+		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+</div>
+	<div id="iframe_box" class="Hui-article">
+		<div class="show_iframe">
+			<div style="display:none" class="loading"></div>
+			<iframe scrolling="yes" frameborder="0" src="note.html"></iframe>
+	</div>
+</div>
+</section>
+
+<div class="contextMenu" id="Huiadminmenu">
+	<ul>
+		<li id="closethis">关闭当前 </li>
+		<li id="closeall">关闭全部 </li>
+</ul>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="static/js/uiadmin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/js/uiadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/js/uiadmin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/js/uiadmin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="static/js/uiadmin/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript">
+	$(function () {
+        $.ajax({
+            url: "/user/getSysUser",
+            type: "GET",
+            dataType : 'json',
+            data: {},
+            error:function (data) {},
+            success:function (data) {
+                if(data.state == 1){
+                  $("#user-name").text(data.sysUser.name);
+                  $("#user-mail").text(data.sysUser.mail);
+                  if(data.sysUser.roleid == 1){//admin
+                        $("#ckzy").append("<li><a data-href=\"in-warehouse.html\" data-title=\"入库管理\" " +
+                            "href=\"javascript:void(0)\">入库管理</a></li>")
+                        $("#ckzy").append("<li><a data-href=\"out-warehouse.html\" data-title=\"出库管理\"" +
+                            " href=\"javascript:void(0)\">出库管理</a></li>");
+                        $("#ckzy").append("<li><a data-href=\"pandian.html\" data-title=\"盘点管理\" " +
+                            "href=\"javascript:void(0)\">盘点管理</a></li>");
+                        $("#ckzy").append("<li><a data-href=\"yuxuan.html\" data-title=\"预选管理\"" +
+                            " href=\"javascript:void(0)\">预选管理</a></li>\n");
+
+
+                        $("#bbgl").append("<li><a data-href=\"in-warehouse-search.html\" data-title=\"入库记录\"" +
+                            " href=\"javascript:void(0)\">入库记录</a></li>\n");
+                        $("#bbgl").append("<li><a data-href=\"out-record.html\" data-title=\"出库记录\" " +
+                            "href=\"javascript:void(0)\">出库记录</a></li>\n");
+                        $("#bbgl").append("<li><a data-href=\"pandian.html\" data-title=\"盘点记录\" " +
+                            "href=\"javascript:void(0)\">盘点记录</a></li>");
+                        $("#bbgl").append("<li><a data-href=\"yuxuan-record.html\" data-title=\"预选单记录\" " +
+                            "href=\"javascript:void(0)\">预选单记录</a></li>");
+
+                        $("#xtsz").append("<li><a data-href=\"admin-list.html\" data-title=\"员工管理\" " +
+                            "href=\"javascript:void(0)\">员工管理</a></li>");
+
+                    }
+                    if(data.sysUser.roleid == 2){//库管员
+                        $("#ckzy").append("<li><a data-href=\"in-warehouse.html\" data-title=\"入库管理\" " +
+                            "href=\"javascript:void(0)\">入库管理</a></li>")
+                        $("#ckzy").append("<li><a data-href=\"out-warehouse.html\" data-title=\"出库管理\"" +
+                            " href=\"javascript:void(0)\">出库管理</a></li>");
+                        $("#ckzy").append("<li><a data-href=\"pandian.html\" data-title=\"盘点管理\" " +
+                            "href=\"javascript:void(0)\">盘点管理</a></li>");
+
+                        $("#bbgl").append("<li><a data-href=\"in-warehouse-search.html\" data-title=\"入库记录\"" +
+                            " href=\"javascript:void(0)\">入库记录</a></li>\n");
+                        $("#bbgl").append("<li><a data-href=\"out-record.html\" data-title=\"出库记录\" " +
+                            "href=\"javascript:void(0)\">出库记录</a></li>\n");
+                        $("#bbgl").append("<li><a data-href=\"pandian.html\" data-title=\"盘点记录\" " +
+                            "href=\"javascript:void(0)\">盘点记录</a></li>");
+                        $("#bbgl").append("<li><a data-href=\"yuxuan-record.html\" data-title=\"预选单记录\" " +
+                            "href=\"javascript:void(0)\">预选单记录</a></li>");
+
+                    }
+                    if(data.sysUser.roleid == 3){//经办人（普通用户）
+                        $("#ckzy").append("<li><a data-href=\"yuxuan.html\" data-title=\"预选管理\"" +
+                            " href=\"javascript:void(0)\">预选管理</a></li>\n");
+
+                    }
+
+                }else {
+                    location.assign("/");
+				}
+            }
+        });
+    });
+
+
+function Queue(size) {
+    var list = [];
+
+    //向队列中添加数据
+    this.push = function(data) {
+        if (data==null) {
+            return false;
+        }
+        //如果传递了size参数就设置了队列的大小
+        if (size != null && !isNaN(size)) {
+            if (list.length == size) {
+                this.pop();
+            }
+        }
+        list.unshift(data);
+        return true;
+    }
+
+    //从队列中取出数据
+    this.pop = function() {
+        return list.pop();
+    }
+
+    //返回队列的大小
+    this.size = function() {
+        return list.length;
+    }
+
+    //返回队列的内容
+    this.quere = function() {
+        return list;
+    }
+}
+
+/*个人信息*/
+function myselfinfo(){
+
+    $.ajax({
+        url: "/user/getSysUser",
+        type: "GET",
+        dataType : 'json',
+        data: {},
+        error:function (data) {},
+        success:function (data) {
+            if(data.state == 1){
+                var content = "<div><table><tbody>" +
+                    "<tr><td>用户名</td><td>"+data.sysUser.name+"</td></tr>" +
+                    "<tr><td>账号</td><td>"+data.sysUser.mail+"</td></tr>" +
+                    "<tr><td>电话</td><td>"+data.sysUser.tlNumber+"</td></tr>";
+                if(data.sysUser.roleid==1){
+                    content += "<tr><td>权限</td><td>管理员</td></tr>" ;
+                }
+                if(data.sysUser.roleid==2){
+                    content += "<tr><td>权限</td><td>保管员</td></tr>" ;
+                }
+                if(data.sysUser.roleid==3){
+                    content += "<tr><td>权限</td><td>经办人</td></tr>" ;
+                }
+
+                content += "</tbody></table></div>";
+                layer.open({
+                    type: 1,
+                    area: ['300px','200px'],
+                    fix: false, //不固定
+                    maxmin: true,
+                    shade:0.4,
+                    title: '查看信息',
+                    content: content
+
+                });
+            }
+        }
+    });
+
+}
+
+
+</script> 
+
+</body>
+</html>

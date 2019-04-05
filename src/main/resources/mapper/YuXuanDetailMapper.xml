@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.YuXuanDetailDao" >
+
+    <insert id="addOne" parameterType="com.warems.warehouse.entity.YuXuanDetail">
+        INSERT INTO
+        t_yuxuandetail(yxd_preorder_number,yxd_foodname,yxd_foodstandard,yxd_num)
+        VALUE (
+        #{yxd_preorder_number},
+        #{yxd_foodname},
+        #{yxd_foodstandard},
+        #{yxd_num}
+        )
+    </insert>
+
+    <select id="getAll" parameterType="com.warems.warehouse.entity.YuXuanDetail" resultType="com.warems.warehouse.entity.YuXuanDetail">
+        SELECT yxd_id,yxd_preorder_number,yxd_foodname,yxd_foodstandard,yxd_num
+        FROM t_yuxuandetail
+        <where>
+            <if test="yxd_preorder_number != null and yxd_preorder_number!= ''">
+                yxd_preorder_number = #{yxd_preorder_number}
+            </if>
+
+        </where>
+
+    </select>
+
+</mapper>

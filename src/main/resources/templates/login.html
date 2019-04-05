@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>仓储管理系统</title>
+<link rel="stylesheet" type="text/css" href="static/js/r/login/css/style.css" />
+<link rel="stylesheet" type="text/css" href="static/js/r/login/css/body.css"/>
+
+</head>
+<body>
+<div class="container">
+	<section id="content">
+		<form target="_blank">
+			<h1>用户登录</h1>
+			<div>
+				<input type="text" placeholder="邮箱" required="" id="mail" value="13552967920@163.com"/>
+			</div>
+			<div>
+				<input type="password" placeholder="密码" required="" id="password" value="123"/>
+			</div>
+			 <div class="">
+				<span class="help-block u-errormessage" style="color: red" id="errormessage">&nbsp;</span>
+			 </div>
+			<div>
+				<!-- <input type="submit" value="Log in" /> -->
+				<input type="button" value="登录" class="btn btn-primary" onclick="login()"/>
+				<a href="#">忘记密码?</a>
+				<!-- <a href="#">Register</a> -->
+			</div>
+		</form><!-- form -->
+		 <div class="button">
+			<span class="help-block u-errormessage"  id="js-server-helpinfo">&nbsp;</span>
+		
+		</div> <!-- button -->
+	</section><!-- content -->
+</div>
+<!-- container -->
+
+
+<br><br><br><br>
+<div style="text-align:center;">
+<p></p>
+</div>
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<script type="text/javascript">
+	function login() {
+		var mail = $("#mail").val();
+		var password = $("#password").val();
+		var error = $("#errormessage");
+        $.ajax({
+            url: "login",
+            type: "POST", //请求的方式
+            dataType : 'json',
+            data: {
+                'mail' : mail,
+                'password':password
+            },
+            error:function (data) {
+                error.empty();
+                error.text("请求失败");
+            },
+            success:function (data) {
+                if(data.state == 1){
+                    location.assign("index");
+                }else{
+                    error.empty();
+                    error.text("账号或密码错误！");
+                    return false;
+                }
+            }
+        });
+
+    }
+
+</script>
+</body>
+</html>

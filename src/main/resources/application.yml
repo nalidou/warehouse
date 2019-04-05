@@ -1,0 +1,24 @@
+## 样例 https://www.cnblogs.com/peterxiao/p/7779188.html
+#公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: com.shop.fangniujie.entiry
+  mapperLocations: classpath:mapper/*.xml
+  #configuration:
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 80
+
+#开发配置
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    prefix: classpath:/templates/
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_warehouse?useUnicode=true&amp;characterEncoding=utf8
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource

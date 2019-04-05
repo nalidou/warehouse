@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.GodownentryDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Godownentry">
+        <id column="ge_ID" property="id" ></id>
+        <result column="ge_entryman" property="entryman"></result>
+        <result column="ge_entrydate" property="entrydate"></result>
+        <result column="ge_entry_order_number" property="entry_order_number"></result>
+    </resultMap>
+
+    <sql id="sql1">
+        ge_ID,ge_entryman,ge_entrydate,ge_entry_order_number
+    </sql>
+    <sql id="sql2">
+        ge_entryman,ge_entrydate,ge_entry_order_number
+    </sql>
+    <select id="getLast" resultMap="BaseMap">
+        SELECT
+          <include refid="sql1"/>
+        FROM
+          t_godownentry
+        WHERE
+          ge_id = (SELECT MAX(ge_id) FROM t_godownentry);
+
+    </select>
+    <select id="getAll" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.Godownentry">
+        SELECT
+          <include refid="sql1"/>
+        FROM
+          t_godownentry
+        <where>
+            <if test="start != '' and start != null">
+                and ge_entrydate &gt;= #{start}
+            </if>
+            <if test="end != '' and end != null">
+                and ge_entrydate &lt;= #{end}
+            </if>
+            <if test="entry_order_number != '' and entry_order_number != ''">
+                and ge_entry_order_number like '%${entry_order_number}%'
+            </if>
+
+
+        </where>
+    </select>
+
+</mapper>

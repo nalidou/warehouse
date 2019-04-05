@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.UserDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.User">
+        <id column="u_Id" property="id"></id>
+        <result column="u_Name" property="name"></result>
+        <result column="u_password" property="password"></result>
+        <result column="u_tlNumber" property="tlNumber"></result>
+        <result column="u_mail" property="mail"></result>
+        <result column="u_createTime" property="createtime"></result>
+        <result column="u_roleID" property="roleid"></result>
+    </resultMap>
+    <sql id="sql1">
+        u_Id,
+        u_Name,
+        u_password,
+        u_tlNumber,
+        u_mail,
+        u_createTime,
+        u_roleID
+
+    </sql>
+    <sql id="sql2">
+        u_Name,
+        u_password,
+        u_tlNumber,
+        u_mail,
+        u_createTime,
+        u_roleID
+
+    </sql>
+
+    <select id="getOne" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.User">
+        SELECT
+          <include refid="sql1"/>
+        FROM
+          t_user
+        <where>
+            <if test="id != null and id != ''">
+                and u_Id = #{id}
+            </if>
+            <if test="mail != null and mail != ''">
+                and u_mail = #{mail}
+            </if>
+        </where>
+    </select>
+    <update id="updatePwd" parameterType="com.warems.warehouse.entity.User">
+        UPDATE  t_user
+        SET u_password = #{password}
+        where u_Id = #{id}
+    </update>
+    <update id="update" parameterType="com.warems.warehouse.entity.User">
+        UPDATE
+        t_user
+        SET
+        u_password = #{password},
+        u_Name = #{name},
+        u_password = #{password},
+        u_tlNumber = #{tlNumber},
+        u_mail = #{mail},
+        u_roleID = #{roleid}
+        where
+        u_Id = #{id}
+    </update>
+
+    <insert id="add" parameterType="com.warems.warehouse.entity.User">
+        INSERT INTO
+            t_user(<include refid="sql2"/>)
+        VALUE (
+            #{name},
+            #{password},
+            #{tlNumber},
+            #{mail},
+            #{createtime},
+            #{roleid}
+        )
+    </insert>
+
+    <select id="getAll" parameterType="com.warems.warehouse.entity.User" resultMap="BaseMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM
+        t_user
+        <where>
+            <if test="start != '' and start != null">
+                u_createTime &gt; #{start}
+            </if>
+            <if test="end != '' and end != null">
+                u_createTime &lt; #{end}
+            </if>
+            <if test="mail != null and mail != ''">
+                u_mail like '%${mail}%'
+            </if>
+
+        </where>
+
+    </select>
+
+    <delete id="delete" parameterType="com.warems.warehouse.entity.User">
+        DELETE from t_user
+        WHERE u_ID = #{id}
+    </delete>
+</mapper>

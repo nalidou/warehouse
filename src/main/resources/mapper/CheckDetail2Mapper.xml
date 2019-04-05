@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.CheckDetail2Dao" >
+    <sql id="sql1">
+        id,
+        ck_num,
+        name,
+        standard,
+        unit,
+        ennumber,
+        outnumber,
+        renumber,
+        price,
+        producedate,
+        posencode,
+        create_time,
+        ckman
+    </sql>
+    <sql id="sql2">
+
+        ck_num,
+        name,
+        standard,
+        unit,
+        ennumber,
+        outnumber,
+        renumber,
+        price,
+        producedate,
+        posencode,
+        create_time,
+        ckman
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.CheckDetail2" >
+        INSERT INTO t_checkdetail2(
+        <include refid="sql2"></include>
+        )
+        VALUE (
+        #{ck_num},
+        #{name},
+        #{standard},
+        #{unit},
+        #{ennumber},
+        #{outnumber},
+        #{renumber},
+        #{price},
+        #{producedate},
+        #{posencode},
+        #{create_time},
+        #{ckman}
+
+        )
+
+    </insert>
+    <select id="getAll" parameterType="com.warems.warehouse.entity.CheckDetail2"
+            resultType="com.warems.warehouse.entity.CheckDetail2">
+        SELECT <include refid="sql1"></include>
+        FROM t_checkdetail2
+        WHERE ck_num = #{ck_num}
+    </select>
+
+</mapper>

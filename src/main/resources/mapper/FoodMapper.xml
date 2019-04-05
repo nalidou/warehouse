@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.FoodDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Food" >
+        <id column="f_id" property="id" />
+        <result column="f_name" property="name"/>
+        <result column="f_standard" property="standard"/>
+        <result column="f_unit" property="unit"/>
+        <result column="f_price" property="price"/>
+        <result column="f_producedate" property="producedate"/>
+        <result column="f_guaranteeperiod" property="guaranteeperiod"/>
+        <result column="f_number" property="number"/>
+
+        <!--前面是数据库，后面是java-->
+    </resultMap>
+    <sql id="BaseColumn1">
+        f_id,
+        f_name,
+        f_standard,
+        f_unit,
+        f_price,
+        f_producedate,
+        f_guaranteeperiod,
+        f_number
+    </sql>
+    <sql id="BaseColumn2">
+        f_name,
+        f_standard,
+        f_unit,
+        f_price,
+        f_producedate,
+        f_guaranteeperiod,
+        f_number
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.Food">
+        INSERT INTO
+            t_food(
+              <include refid="BaseColumn2"/>
+            )
+        VALUE(
+            #{name},
+            #{standard},
+            #{unit},
+            #{price},
+            #{producedate},
+            #{guaranteeperiod},
+            #{number}
+        )
+    </insert>
+    <select id="getOne" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.Food">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_food
+        <where>
+            <if test="id != null">
+                AND f_id = #{id}
+            </if>
+            <if test="name != null and name!=''">
+                AND f_name = #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="getAll" resultMap="BaseMap">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_food
+    </select>
+    <delete id="delete" parameterType="com.warems.warehouse.entity.Food">
+        DELETE  FROM t_food WHERE f_id=#{id}
+    </delete>
+    <update id="update" parameterType="com.warems.warehouse.entity.Food">
+        UPDATE
+          t_food
+        SET
+            f_name = #{name},
+            f_standard = #{standard},
+            f_unit = #{unit},
+            f_price =  #{price},
+            f_producedate = #{producedate},
+            f_guaranteeperiod =  #{guaranteeperiod},
+            f_number = #{number}
+        where
+            f_id = #{id}
+    </update>
+
+
+
+    <select id="entryByProcedure" statementType="CALLABLE" resultType="int">
+        call pro_entry(
+            #{fname,jdbcType=VARCHAR,mode=IN},
+            #{fstandard,jdbcType=VARCHAR,mode=IN},
+            #{funit,jdbcType=VARCHAR,mode=IN},
+            #{fprice,jdbcType=VARCHAR,mode=IN},
+            #{fproducedate,jdbcType=VARCHAR,mode=IN},
+            #{fguaranteeperiod,jdbcType=VARCHAR,mode=IN},
+            #{fnumber,jdbcType=BIGINT,mode=IN},
+            #{posencode,jdbcType=VARCHAR,mode=IN},
+            #{entryman,jdbcType=VARCHAR,mode=IN},
+            #{entry_order_num,jdbcType=VARCHAR,mode=IN},
+            #{gedencode,jdbcType=VARCHAR,mode=IN},
+            #{finish,jdbcType=BIGINT,mode=IN},
+            #{result,jdbcType=BIGINT,mode=OUT}
+        )
+    </select>
+
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.GodownoutDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Godownout" >
+        <id column="go_id" property="id" />
+        <result column="go_outorder_number" property="outordernumber"/>
+        <result column="go_preorder_number" property="preordernumber"/>
+        <result column="go_createdate" property="createdate"/>
+        <result column="go_outdate" property="outdate"/>
+        <result column="go_state" property="state"/>
+        <result column="go_agent" property="agent"/>
+        <result column="go_storeman" property="storeman"/>
+        <result column="go_outencode" property="outencode"/>
+
+        <!--前面是数据库，后面是java-->
+    </resultMap>
+    <sql id="BaseColumn1">
+        go_id,
+        go_outorder_number,
+        go_preorder_number,
+        go_createdate,
+        go_outdate,
+        go_state,
+        go_agent,
+        go_storeman,
+        go_outencode
+    </sql>
+    <sql id="BaseColumn2">
+        go_outorder_number,
+        go_preorder_number,
+        go_createdate,
+        go_outdate,
+        go_state,
+        go_agent,
+        go_storeman,
+        go_outencode
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.Godownout">
+        INSERT INTO
+        t_godownout(
+              <include refid="BaseColumn2"/>
+            )
+        VALUE(
+            #{outordernumber},
+            #{preordernumber},
+            #{createdate},
+            #{outdate},
+            #{state},
+            #{agent},
+            #{storeman},
+            #{outencode}
+        )
+    </insert>
+    <!--<select id="getOne" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.Food">-->
+        <!--SELECT-->
+          <!--<include refid="BaseColumn1"/>-->
+        <!--FROM-->
+        <!--t_food-->
+        <!--<where>-->
+            <!--<if test="id != null">-->
+                <!--AND f_id = #{id}-->
+            <!--</if>-->
+            <!--<if test="name != null and name!=''">-->
+                <!--AND f_name = #{name}-->
+            <!--</if>-->
+
+        <!--</where>-->
+
+    <!--</select>-->
+
+    <!--<select id="getAll" resultMap="BaseMap">-->
+        <!--SELECT-->
+          <!--<include refid="BaseColumn1"/>-->
+        <!--FROM-->
+        <!--t_food-->
+
+
+    <!--</select>-->
+    <!--<delete id="delete" parameterType="com.warems.warehouse.entity.Food">-->
+        <!--DELETE  FROM t_food WHERE f_id=#{id}-->
+    <!--</delete>-->
+    <update id="update" parameterType="com.warems.warehouse.entity.Godownout">
+        UPDATE
+          t_godownout
+        SET
+            #{outordernumber},
+            #{preordernumber},
+            #{createdate},
+            #{outdate},
+            #{state},
+            #{agent},
+            #{storeman},
+            #{outencode}
+        where
+            go_id = #{id}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.CheckdetailDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Checkdetail" >
+        <id column="c_id" property="id" />
+        <result column="c_encode" property="encode"/>
+        <result column="c_foodid" property="foodid"/>
+        <result column="c_entrynum" property="entrynum"/>
+        <result column="c_outnum" property="outnum"/>
+        <result column="c_rem_number" property="rem_number"/>
+        <result column="c_entrydate" property="entrydate"/>
+        <result column="c_posencode" property="posencode"/>
+        <result column="c_entryman" property="entryman"/>
+
+        <!--前面是数据库，后面是java-->
+    </resultMap>
+    <sql id="BaseColumn1">
+        c_id,
+        c_encode,
+        c_foodid,
+        c_entrynum,
+        c_outnum,
+        c_rem_number,
+        c_entrydate,
+        c_posencode,
+        c_entryman
+    </sql>
+    <sql id="BaseColumn2">
+        c_encode,
+        c_foodid,
+        c_entrynum,
+        c_outnum,
+        c_rem_number,
+        c_entrydate,
+        c_posencode,
+        c_entryman
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.Checkdetail">
+        INSERT INTO
+        t_checkdetail(
+              <include refid="BaseColumn2"/>
+            )
+        VALUE(
+            #{encode},
+            #{foodid},
+            #{entrynum},
+            #{outnum},
+            #{rem_number},
+            #{entrydate},
+            #{posencode},
+            #{entryman}
+        )
+    </insert>
+    <select id="getOne" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.Checkdetail">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_checkdetail
+        <where>
+            <if test="id != null">
+                AND c_id = #{id}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="getAll" resultMap="BaseMap">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_checkdetail
+    </select>
+    <delete id="delete" parameterType="com.warems.warehouse.entity.Checkdetail">
+        DELETE  FROM t_checkdetail WHERE c_id=#{id}
+    </delete>
+    <update id="update" parameterType="com.warems.warehouse.entity.Checkdetail">
+        UPDATE
+          t_checkdetail
+        SET
+            c_encode = #{encode},
+            c_foodid = #{foodid},
+            c_entrynum = #{entrynum},
+            c_outnum =  #{outnum},
+            c_rem_number = #{rem_number},
+            c_entrydate =  #{entrydate},
+            c_posencode = #{posencode},
+            c_entryman = #{entryman}
+        where
+            c_id = #{id}
+    </update>
+
+
+
+
+</mapper>

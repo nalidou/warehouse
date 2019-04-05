@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.FoodRemainderDao" >
+
+
+    <sql id="sql1">
+        fID,name,standard,unit,
+        ennumber,renumber,detailID,
+        price,producedate,guaranteeperiod,
+        posencode,enID,ge_entry_order_number,
+        entrydate,entryman
+    </sql>
+    <select id="getOne" resultType="com.warems.warehouse.entity.FoodRemainder"
+            parameterType="com.warems.warehouse.entity.FoodRemainder">
+        SELECT
+          <include refid="sql1"/>
+        FROM
+          view_food_remainder
+        <where>
+            <if test="fID != null">
+                AND fID = #{fID}
+            </if>
+            <if test="name != null and name!=''">
+                AND name = #{name}
+            </if>
+
+        </where>
+    </select>
+    <select id="getAll" resultType="com.warems.warehouse.entity.FoodRemainder"
+            parameterType="com.warems.warehouse.entity.FoodRemainder">
+        SELECT
+        <include refid="sql1"/>
+        FROM
+        view_food_remainder
+        <where>
+            <if test="ge_entry_order_number != '' and ge_entry_order_number != null">
+                and ge_entry_order_number = #{ge_entry_order_number}
+            </if>
+            <if test="name != '' and name != null">
+                and name = #{name}
+            </if>
+            <if test="standard != null and standard != ''">
+                and standard = #{standard}
+            </if>
+        </where>
+        order by producedate asc
+    </select>
+
+
+
+    <update id="updateRenumber" parameterType="com.warems.warehouse.entity.FoodRemainder">
+        UPDATE
+          view_food_remainder
+        SET
+          renumber = #{renumber}
+        where
+          fID = #{fID}
+    </update>
+
+
+
+</mapper>

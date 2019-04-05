@@ -1,0 +1,124 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!--用户管理界面-->
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="js/uiadmin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/style.css" />
+	<!--提示框-->
+	<link rel="stylesheet" type="text/css" href="js/uiadmin/pop_up/dialog/dialog.css" />
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/zepto.min.js"></script>
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/dialog.min.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="js/uiadmin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>管理员列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span> 仓库作业
+	<span class="c-gray en">&gt;</span>  预选详单
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+	   onclick="$('#main-content').jqprint()" title="打印" >打印</a></nav>
+<div class="page-container" id="main-content">
+	<!--
+	<div class="text-c"> 日期范围：
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<input type="text" class="input-text" style="width:250px" placeholder="预选单号" id="dept-empl-name" >
+		<button type="submit" class="btn btn-success" onclick=""><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+-->
+	<div class="text-c"> 预选单号：<span id="yuxuanNum"></span>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+
+			<tr class="text-c">
+				<!--
+				<th width="100">预选单号</th>
+				-->
+				<th width="100">品名</th>
+				<th width="100">规格</th>
+				<th width="100">数量</th>
+
+			</tr>
+		</thead>
+		<tbody id="yuxuan-context">
+
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+
+<script type="text/javascript" src="js/uiadmin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="js/uiadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="js/uiadmin/jprint/jquery.jqprint-0.3.js"></script>
+
+
+<script type="text/javascript">
+	$(function () {
+        $.ajax({
+            url: "/yuxuan/getYuXuanDetail",
+            type: "POST",
+            dataType : 'json',
+            data: {
+
+            },
+            error:function (data) {
+            },
+            success:function (data) {
+                $("#yuxuanNum").text(data.list[0].yxd_preorder_number);
+                for(var i=0;i<data.size;i++){
+                    var tr = $("<tr></tr>");
+
+                    //var td_1 = "<td><center>"+data.list[i].yxd_preorder_number+"</center></td>";
+                    var td_2 = "<td><center>"+data.list[i].yxd_foodname+"</center></td>";
+                    var td_3 = "<td><center>"+data.list[i].yxd_foodstandard+"</center></td>";
+                    var td_4 = "<td><center>"+data.list[i].yxd_num+"</center></td>";
+					//tr.append(td_1);
+					tr.append(td_2);
+					tr.append(td_3);
+					tr.append(td_4);
+					$("#yuxuan-context").append(tr);
+
+				}
+				var tr2 = $("<tr></tr>");
+                tr2.append("<td>审批人:</td>");
+                tr2.append("<td>保管员:</td>");
+                tr2.append("<td>经办人:</td>");
+
+                $("#yuxuan-context").append(tr2);
+
+
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

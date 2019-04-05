@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.ChukuDetailDao" >
+    <sql id="sql1">
+        id,
+        out_num,
+        food_id,
+        food_name,
+        food_standard,
+        food_unit,
+        food_num,
+        food_price,
+        food_total,
+        food_time,
+        food_poscode,
+        outman
+    </sql>
+    <sql id="sql2">
+
+        out_num,
+        food_id,
+        food_name,
+        food_standard,
+        food_unit,
+        food_num,
+        food_price,
+        food_total,
+        food_time,
+        food_poscode,
+        outman
+    </sql>
+
+    <insert id="addOne" parameterType="com.warems.warehouse.entity.ChukuDetail">
+        INSERT INTO t_chukudetail(
+        <include refid="sql2"/>
+        )
+        VALUE (
+        #{out_num},
+        #{food_id},
+        #{food_name},
+        #{food_standard},
+        #{food_unit},
+        #{food_num},
+        #{food_price},
+        #{food_total},
+        #{food_time},
+        #{food_poscode},
+        #{outman}
+        )
+    </insert>
+    <select id="getAll" parameterType="com.warems.warehouse.entity.ChukuDetail"
+            resultType="com.warems.warehouse.entity.ChukuDetail">
+        SELECT
+          <include refid="sql1"></include>
+        FROM
+          t_chukudetail
+        <where>
+            <if test="out_num != null and out_num !='' ">
+                out_num = #{out_num}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

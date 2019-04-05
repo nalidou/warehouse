@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.YuXuanDao" >
+
+    <insert id="addOne" parameterType="com.warems.warehouse.entity.YuXuan">
+        INSERT INTO
+        t_yuxuan(yx_preorder_number,yx_createdate,yx_agent,state)
+        VALUE (
+        #{yx_preorder_number},
+        #{yx_createdate},
+        #{yx_agent},
+        #{state}
+        )
+    </insert>
+    <select id="getAll" parameterType="com.warems.warehouse.entity.YuXuan" resultType="com.warems.warehouse.entity.YuXuan">
+        SELECT yx_id,yx_preorder_number,yx_createdate,yx_agent,state
+        FROM t_yuxuan
+        <where>
+            <if test="yx_preorder_number != null and yx_preorder_number != ''">
+                and yx_preorder_number like '%${yx_preorder_number}%'
+            </if>
+            <if test="start != null and start != ''">
+                and yx_createdate &gt;= #{start}
+            </if>
+            <if test="end != null and end != ''">
+                and yx_createdate &lt;= #{end}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="getLast" resultType="com.warems.warehouse.entity.YuXuan">
+        SELECT yx_id,yx_preorder_number,yx_createdate,yx_agent
+        FROM t_yuxuan
+        WHERE
+        yx_preorder_number=(SELECT MAX(yx_preorder_number) FROM t_yuxuan)
+
+    </select>
+
+    <select id="getOne" resultType="com.warems.warehouse.entity.YuXuan"
+            parameterType="com.warems.warehouse.entity.YuXuan">
+        SELECT yx_id,yx_preorder_number,yx_createdate,yx_agent,state
+        FROM t_yuxuan
+        WHERE yx_preorder_number = #{yx_preorder_number}
+
+    </select>
+
+    <update id="updateState" parameterType="com.warems.warehouse.entity.YuXuan">
+        UPDATE t_yuxuan
+        SET state = #{state}
+        where yx_preorder_number = #{yx_preorder_number}
+    </update>
+
+</mapper>

@@ -1,0 +1,108 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!--用户管理界面-->
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="js/uiadmin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/style.css" />
+	<!--提示框-->
+	<link rel="stylesheet" type="text/css" href="js/uiadmin/pop_up/dialog/dialog.css" />
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/zepto.min.js"></script>
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/dialog.min.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="js/uiadmin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>管理员列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+	仓库作业 <span class="c-gray en">&gt;</span> 入库管理
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+		<i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+
+		<form id="uploadForm" method="post" enctype="multipart/form-data">
+
+			<input type="file" name="file" id="file" class="input-text"  style="width:250px"
+				   placeholder="选择导入的文件(xls)" >
+			<button type="submit" class="btn btn-success" onclick="uploadBash()">
+				<i class="Hui-iconfont">&#xe665;</i> 批量导入</button>
+		</form>
+	</div>
+
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+			<a href="javascript:;" onclick="addOne()"
+			   class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加一条</a>
+			&nbsp;&nbsp;
+		<a href="javascript:;" onclick="save()"
+		   class="btn btn-primary radius">开始入库</a>
+		</span>
+
+
+	</div>
+	<table id="" class="table table-border table-bordered table-bg">
+		<thead>
+
+			<tr class="text-c">
+
+				<th width="100">食品名称</th>
+				<th width="80">规格</th>
+				<th width="80">单位</th>
+				<th width="80">单价</th>
+				<th width="100">生产日期</th>
+				<th width="60">保质期</th>
+
+				<th width="60">入库数量</th>
+				<th width="100">库房及货架号</th>
+				<th width="100">操作</th>
+				<!--
+				<th width="100">录入人</th>
+				<th width="100">入库单编号</th>
+				<th width="100">入库详单编码</th>
+				<th width="100">是否录入结束</th>
+				-->
+
+			</tr>
+		</thead>
+		<tbody id="in_context">
+
+
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="js/uiadmin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="js/uiadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="js/uiadmin/js/in-warehouse.js"></script>
+
+<script type="text/javascript">
+	$(function () {
+
+    });
+</script>
+
+</body>
+</html>

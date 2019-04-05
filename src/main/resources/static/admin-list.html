@@ -1,0 +1,267 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!--用户管理界面-->
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="js/uiadmin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/style.css" />
+	<!--提示框-->
+	<link rel="stylesheet" type="text/css" href="js/uiadmin/pop_up/dialog/dialog.css" />
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/zepto.min.js"></script>
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/dialog.min.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="js/uiadmin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>管理员列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 员工管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 日期范围：
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'start\')||\'%y-%M-%d\'}' })" id="start" class="input-text Wdate" style="width:120px;">
+
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'end\')}',maxDate:'%y-%M-%d' })" id="end" class="input-text Wdate" style="width:120px;">
+		<input type="text" class="input-text" style="width:250px" placeholder="账号（邮箱）" id="mail" >
+		<button type="submit" class="btn btn-success" onclick="list()"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+	</div>
+
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+			<a href="javascript:;" onclick="admin_add('添加员工','admin-add.html','800','500')"
+			   class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加员工</a></span>
+	</div>
+	<table id="user-table" class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="11">员工列表</th>
+			</tr>
+			<tr class="text-c">
+
+				<th width="100">用户名</th>
+				<th width="100">手机</th>
+				<th width="150">邮箱</th>
+				<th width="150">加入时间</th>
+				<th width="100">权限</th>
+				<th width="100">操作</th>
+			</tr>
+		</thead>
+		<tbody id="empl-list">
+
+
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="js/uiadmin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="js/uiadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/laypage/1.2/laypage.js"></script>
+
+<script type="text/javascript">
+	$(function () {
+       list();
+    });
+
+	function list() {
+
+        var table;
+        function attendQuery() {
+            table.ajax.reload();
+        }
+        $(function () {
+            //提示信息
+            $.fn.dataTable.ext.errMode = 'none';
+            var lang = {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "每页 _MENU_ 项",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+                "sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页",
+                    "sJump": "跳转"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            };
+            //初始化表格
+            table = $("#user-table").on('error.dt', function (e, settings, techNote, message) {
+                console.warn(message)
+            }).dataTable({
+                language: lang, //提示信息
+                autoWidth: false, //禁用自动调整列宽
+                stripeClasses: ["odd", "even"], //为奇偶行加上样式，兼容不支持CSS伪类的场合
+                processing: true, //隐藏加载提示,自行处理
+                serverSide: false, //启用服务器端分页
+                searching: false, //禁用原生搜索
+                orderMulti: false, //启用多列排序
+                order: [], //取消默认排序查询,否则复选框一列会出现小箭头
+                renderer: "bootstrap", //渲染样式：Bootstrap和jquery-ui
+                pagingType: "simple_numbers", //分页样式：simple,simple_numbers,full,full_numbers
+                destroy:true,//解决不能重新初始化的问题
+                columnDefs: [{
+                    "targets": 'nosort', //列的样式名
+                    "orderable": false //包含上样式名‘nosort'的禁止排序
+                }],
+                ajax: function (data, callback, settings) {
+                    //封装请求参数
+                    var param = {
+						"start":$("#start").val(),
+						"end":$("#end").val(),
+						"mail":$("#mail").val()
+                    };
+                    param.pageSize = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                    param.start = data.start;//开始的记录序号
+                    param.currentPage = (data.start / data.length) + 1;//当前页码
+                    //console.log(param);
+                    //ajax请求数据
+                    $.ajax({
+                        type: "post",
+                        url: "/user/getList",
+                        cache: false, //禁用缓存
+                        data: param, //传入组装的参数
+                        dataType: "json",
+                        success: function (result) {
+                            var returnData = {};
+                            returnData.draw = data.startRow;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.totalRows;//返回数据全部记录
+                            returnData.recordsFiltered = result.totalRows;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.items;//返回的数据列表
+
+
+                            //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
+                            callback(returnData);
+                        }
+                    });
+                },
+                "columns": [
+
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.name+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.tlNumber+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.mail+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.createtimeStr+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+							var role = "";
+							if(full.roleid ==1){
+								role = "超级管理员";
+							}
+                            if(full.roleid ==2){
+                                role = "库管员";
+                            }
+                            if(full.roleid ==3){
+                                role = "经办人";
+                            }
+                            return "<center>"+role+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            var ctx = "<center>" +
+                                "<a title=\"编辑\" href=\"javascript:;\" " +
+                                "onclick=\"admin_edit('员工编辑','admin-modify.html',"+full.id+",'800','500')\" " +
+                                "class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> " +
+                                "<a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,"+full.id+")\" " +
+                                "class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>" +
+                                "</center>";
+                            return ctx;
+                        }}
+
+                ]
+            }).api();
+
+        });
+    }
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*管理员-增加*/
+function admin_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+
+	layer.confirm('确认要删除吗？',function(index){
+        console.log(index);
+		$.ajax({
+			type: 'POST',
+			url: '/user/delete',
+			dataType: 'json',
+			data:{
+			    "id":id
+			},
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+/*管理员-编辑*/
+function admin_edit(title,url,id,w,h){
+    $.ajax({
+        type: 'POST',
+        url: '/user/writeModifyId',
+        dataType: 'json',
+        data:{
+            "id":id
+        },
+        success: function(data){
+
+        },
+        error:function(data) {
+            console.log(data.msg);
+        }
+    });
+    layer_show(title,url,w,h);
+}
+
+</script>
+</body>
+</html>

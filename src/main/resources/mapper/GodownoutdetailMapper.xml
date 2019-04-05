@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.GodownoutdetailDao" >
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Godownentrydetail" >
+        <id column="god_ID" property="id" />
+        <result column="god_encode" property="encode"/>
+        <result column="god_foodid" property="foodid"/>
+        <result column="god_outnum" property="outnum"/>
+        <result column="posencode" property="PosenCode"/>
+        <!--前面是数据库，后面是java-->
+    </resultMap>
+    <sql id="BaseColumn1">
+        god_ID,
+        god_encode,
+        god_foodid,
+        god_outnum,
+        posencode
+    </sql>
+    <sql id="BaseColumn2">
+        god_encode,
+        god_foodid,
+        god_outnum,
+        posencode
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.Godownentrydetail">
+        INSERT INTO
+        t_godownoutdetail(
+        <include refid="BaseColumn2"/>
+        )
+        VALUE(
+        #{encode},
+        #{foodid},
+        #{outnum},
+        #{posencode}
+        )
+    </insert>
+    <update id="update" parameterType="com.warems.warehouse.entity.Godownentrydetail">
+        UPDATE
+        t_godownoutdetail
+        SET
+        #{encode},
+        #{foodid},
+        #{outnum},
+        #{posencode}
+        where
+        god_ID = #{id}
+    </update>
+</mapper>

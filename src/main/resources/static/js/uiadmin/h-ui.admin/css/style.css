@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* 你自己的样式 */
+
+
+.code
+{
+    background:url(VerCode.png);
+    font-family:Arial;
+    font-style:italic;
+    color:#8A2BE2;
+    font-size:20px;
+    border:0;
+    padding:2px 3px;
+    letter-spacing:3px;
+    font-weight:bolder;
+    cursor:pointer;
+    width:150px;
+    height:60px;
+    line-height:60px;
+    text-align:center;
+    vertical-align:middle;
+    text-decoration-line:none;
+
+}
+
+#vCode a:hover
+{
+    color:#8A2BE2;
+
+}
+

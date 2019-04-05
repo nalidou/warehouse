@@ -1,0 +1,331 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!--出库操作界面-->
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="js/uiadmin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="js/uiadmin/h-ui.admin/css/style.css" />
+	<!--提示框-->
+	<link rel="stylesheet" type="text/css" href="js/uiadmin/pop_up/dialog/dialog.css" />
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/zepto.min.js"></script>
+	<script type="text/javascript" src="js/uiadmin/pop_up/dialog/dialog.min.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="js/uiadmin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>管理员列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span> 仓库作业
+	<span class="c-gray en">&gt;</span> 出库管理
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+	   href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		预选单：<span id="yuxuan-num"></span>
+	</div>
+
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+
+		<a href="javascript:;" onclick="chuku()"
+		   class="btn btn-primary radius"> 开始出库</a>
+		</span>
+	</div>
+	<ul>
+		<!--
+		<li style="float: left;list-style: none">
+			<table id="kc-table" class="table table-border table-bordered table-bg">
+				<thead>
+				<tr class="text-c">
+
+					<th width="70">品名</th>
+					<th width="50">规格</th>
+					<th width="30">数量</th>
+					<th width="50">操作</th>
+				</tr>
+				</thead>
+				<tbody id="yuxuan-context">
+
+				</tbody>
+			</table>
+		</li>
+		<li style="float: left;list-style: none"></li>
+		-->
+		<li style="list-style: none">
+			<table id="chuku-table" style="top:0" class="table table-border table-bordered table-bg">
+				<thead>
+				<tr class="text-c">
+					<th width="40">ID</th>
+					<th width="70">品名</th>
+					<th width="70">规格</th>
+					<th width="70">单位</th>
+					<th width="70">单价</th>
+					<th width="70">生产日期</th>
+					<th width="70">保质期</th>
+					<th width="70">货架</th>
+					<th width="70">库存</th>
+					<th width="70">数量</th>
+				</tr>
+				</thead>
+				<tbody id="chuku-context">
+
+				</tbody>
+			</table>
+		</li>
+	</ul>
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="js/uiadmin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="js/uiadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/uiadmin/lib/laypage/1.2/laypage.js"></script>
+
+<script type="text/javascript">
+	$(function () {
+       listChuku();
+    });
+
+	//出库操作
+	function chuku() {
+	    var param = "";
+		$("#chuku-context").find("tr").each(function () {
+            var tdArr = $(this).children();
+			var id = tdArr.eq(0).find("center").text();
+			var num = tdArr.eq(9).find("input").val();
+			param+=id+":"+num+";";
+        });
+        $.ajax({
+            url: "/out/save",
+            type: "POST", //请求的方式
+            dataType : 'json',
+            data: {
+                "param":param
+            },
+            error:function (data) {
+                console.log("请求失败");
+            },
+            success:function (data) {
+                if(data.state == 1){
+                    popup({type:'success',msg:"成功",delay:1000,callBack:function(){
+                            $("#chuku-context").empty();
+                            location.href='out-detail.html';
+                        }});
+                    console.log(data.list)
+                }else{
+                    popup({type:'error',msg:"失败",delay:1000,bg:true,clickDomCancel:true});
+                    return false;
+
+                }
+            }
+        });
+
+    }
+
+	//列出出库单
+	function listChuku() {
+        var table;
+        function attendQuery() {
+            table.ajax.reload();
+        }
+        $(function () {
+            //提示信息
+            $.fn.dataTable.ext.errMode = 'none';
+            var lang = {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "每页 _MENU_ 项",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+                "sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页",
+                    "sJump": "跳转"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            };
+            //初始化表格
+            table = $("#chuku-table").on('error.dt', function (e, settings, techNote, message) {
+                console.warn(message)
+            }).dataTable({
+                language: lang, //提示信息
+                autoWidth: false, //禁用自动调整列宽
+                stripeClasses: ["odd", "even"], //为奇偶行加上样式，兼容不支持CSS伪类的场合
+                processing: true, //隐藏加载提示,自行处理
+                serverSide: false, //启用服务器端分页
+                searching: false, //禁用原生搜索
+                orderMulti: false, //启用多列排序
+                order: [], //取消默认排序查询,否则复选框一列会出现小箭头
+                renderer: "bootstrap", //渲染样式：Bootstrap和jquery-ui
+                pagingType: "simple_numbers", //分页样式：simple,simple_numbers,full,full_numbers
+                destroy:true,//解决不能重新初始化的问题
+                columnDefs: [{
+                    "targets": 'nosort', //列的样式名
+                    "orderable": false //包含上样式名‘nosort'的禁止排序
+                }],
+                ajax: function (data, callback, settings) {
+                    //封装请求参数
+                    var param = {
+
+                    };
+                    param.pageSize = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                    param.start = data.start;//开始的记录序号
+                    param.currentPage = (data.start / data.length) + 1;//当前页码
+                    //console.log(param);
+                    //ajax请求数据
+                    $.ajax({
+                        type: "post",
+                        url: "/out/getChukuList",
+                        cache: false, //禁用缓存
+                        data: param, //传入组装的参数
+                        dataType: "json",
+                        success: function (result) {
+                            var returnData = {};
+                            returnData.draw = data.startRow;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.totalRows;//返回数据全部记录
+                            returnData.recordsFiltered = result.totalRows;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.items;//返回的数据列表
+
+                            $("#yuxuan-num").text(result.map.perOrderNum);
+                            //$("#entryNum2").text(result.map.entryNum);
+                            //$("#kuguan").text(result.map.entryMan);
+                            //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
+                            callback(returnData);
+                        }
+                    });
+                },
+                "columns": [
+					/*
+					ID  品名 规格 单位  单价  生产日期  保质期  货架  库存  数量  操作
+					 */
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.fID+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.name+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.standard+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.unit+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.price+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.producedate+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.guaranteeperiod+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.posencode+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center>"+full.renumber+"</center>";
+                        }},
+                    {'data': 'id',render:function (data, type, full) {
+                            return "<center><input value="+full.outNum+"></center>";
+                        }}
+
+                ]
+            }).api();
+
+        });
+		
+    }
+	//列出预选单
+	function listYuXuan() {
+        $(function () {
+            $.ajax({
+                url: "/yuxuan/getYuXuanDetail",
+                type: "POST",
+                dataType : 'json',
+                data: {
+
+                },
+                error:function (data) {
+                },
+                success:function (data) {
+                    $("#yuxuan-num").text(data.list[0].yxd_preorder_number);
+                    for(var i=0;i<data.size;i++){
+                        var tr = $("<tr></tr>");
+                        //var td_1 = "<td><center>"+data.list[i].yxd_preorder_number+"</center></td>";
+                        var td_2 = "<td><center><span id='yuxuan_name_"+i+"'>"+data.list[i].yxd_foodname+"</span></center></td>";
+                        var td_3 = "<td><center><span id='yuxuan_std_"+i+"'>" +data.list[i].yxd_foodstandard+"</span></center></td>";
+                        var td_4 = "<td><center>"+data.list[i].yxd_num+"</center></td>";
+                        var td_5 = "<td><center><button onclick='out_yuxuan("+i+")' class='btn btn-primary radius'>出库</button></center></td>";
+                        //tr.append(td_1);
+                        tr.append(td_2);
+                        tr.append(td_3);
+                        tr.append(td_4);
+                        tr.append(td_5);
+                        $("#yuxuan-context").append(tr);
+
+                    }
+                }
+            });
+        });
+    }
+    //预选单点击出库按钮事件
+    function out_yuxuan(i) {
+		var name = $("#yuxuan_name_"+i).text();
+		var std = $("#yuxuan_std_"+i).text();
+
+        $.ajax({
+            url: "/out/getFoodByNameStd",
+            type: "POST", //请求的方式
+            dataType : 'json',
+            data: {
+                "name":name,
+				"std":std
+            },
+            error:function (data) {
+                console.log("请求失败");
+            },
+            success:function (data) {
+                if(data.state == 1){
+
+                }else{
+
+
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

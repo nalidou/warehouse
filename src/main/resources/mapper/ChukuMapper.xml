@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.ChukuDao" >
+
+
+    <select id="getLast" resultType="com.warems.warehouse.entity.Chuku">
+        SELECT id,out_num,createdate,agent
+        FROM t_chuku
+        WHERE
+        id=(SELECT MAX(id) FROM t_chuku)
+    </select>
+    <insert id="addOne" parameterType="com.warems.warehouse.entity.Chuku">
+        INSERT INTO t_chuku(
+          out_num,createdate,agent
+        )
+        VALUE (
+          #{out_num},
+          #{createdate},
+          #{agent}
+        )
+    </insert>
+    <select id="getAll" parameterType="com.warems.warehouse.entity.Chuku"
+            resultType="com.warems.warehouse.entity.Chuku">
+        SELECT id,out_num,createdate,agent
+        FROM t_chuku
+        <where>
+            <if test="out_num != null and out_num != ''">
+                out_num = #{out_num}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

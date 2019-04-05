@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.warems.warehouse.dao.CheckDao" >
+
+    <resultMap id="BaseMap" type="com.warems.warehouse.entity.Check" >
+        <id column="id" property="id" />
+        <result column="cd_encode" property="encode"/>
+        <result column="cd_checkman" property="checkman"/>
+        <result column="cd_checkdate" property="checkdate"/>
+
+        <!--前面是数据库，后面是java-->
+    </resultMap>
+    <sql id="BaseColumn1">
+        id,
+        cd_encode,
+        cd_checkman,
+        cd_checkdate
+    </sql>
+    <sql id="BaseColumn2">
+        cd_encode,
+        cd_checkman,
+        cd_checkdate
+    </sql>
+    <insert id="add" parameterType="com.warems.warehouse.entity.Check">
+        INSERT INTO
+            t_check(
+              <include refid="BaseColumn2"/>
+            )
+        VALUE(
+            #{encode},
+            #{checkman},
+            #{checkdate}
+        )
+    </insert>
+    <select id="getOne" resultMap="BaseMap" parameterType="com.warems.warehouse.entity.Check">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_check
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="getAll" resultMap="BaseMap">
+        SELECT
+          <include refid="BaseColumn1"/>
+        FROM
+        t_check
+    </select>
+    <select id="getLast" resultMap="BaseMap">
+        SELECT
+        <include refid="BaseColumn1"/>
+        FROM
+        t_check
+        where id = (select max(id) from t_check)
+    </select>
+    <delete id="delete" parameterType="com.warems.warehouse.entity.Check">
+        DELETE  FROM t_check WHERE id=#{id}
+    </delete>
+    <update id="update" parameterType="com.warems.warehouse.entity.Check">
+        UPDATE
+          t_check
+        SET
+            cd_encode = #{encode},
+            cd_checkman = #{checkman},
+            cd_checkdate = #{checkdate}
+        where
+            id = #{id}
+    </update>
+
+
+    <select id="getCheckList" parameterType="com.warems.warehouse.entity.CheckList"
+            resultType="com.warems.warehouse.entity.CheckList">
+        SELECT
+            NAME,standard,unit,
+            SUM(ennumber)AS ennumber,
+            (SUM(ennumber)-SUM(renumber)) AS outnumber,
+            SUM(renumber) AS renumber,
+            price,producedate,posencode
+        FROM view_food_remainder
+        <if test="name != null and name != '' and standard != null and standard != '' and posencode == null">
+            GROUP BY NAME,standard
+        </if>
+        <if test="name != null and name != ''
+                and standard != null and standard != ''
+                and posencode != null and posencode != ''">
+            GROUP BY NAME,standard,posencode
+        </if>
+
+    </select>
+
+
+
+</mapper>
